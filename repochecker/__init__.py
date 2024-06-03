@@ -35,6 +35,8 @@ def main():
     iterate_type_group.add_argument('-r', '--recursive', action='store_true')
     parser.add_argument('-d', '--recursion-depth', default=-1, type=int)
 
+    parser.add_argument('-b', '--brief', action='store_true')
+
     args = parser.parse_args()
 
     # Get directories to check
@@ -79,16 +81,19 @@ def main():
             continue
 
         # Print directory info
-        print()
-        print(Path(os.getcwd()).joinpath(dir))
-        print(colorama.Fore.LIGHTBLACK_EX + f' Is git repo: {color_bool(is_git_repo)}')
-        if (info != None):
-            print(colorama.Fore.LIGHTBLACK_EX + ' Current branch: ' + (colorama.Fore.CYAN + info.current_branch if info.current_branch != None else colorama.Fore.RED + 'None') + colorama.Fore.RESET)
-            print(colorama.Fore.LIGHTBLACK_EX + ' Branches: ' + colorama.Fore.WHITE + ''.join([f'\n  {format_branch(*branch)}' for branch in info.branches]) + colorama.Fore.RESET)
-            print(colorama.Fore.LIGHTBLACK_EX + f' No uncommited changes: {color_bool(info.has_no_uncommited_changes)}')
-            print(colorama.Fore.LIGHTBLACK_EX + f' No unpushed commits: {color_bool(info.has_no_unpushed_commits)}')
-            print(colorama.Fore.LIGHTBLACK_EX + f' No stashed changes: {color_bool(info.has_no_stashed_changes)}')
-        print()
+        if args.brief:
+            print(colorama.Fore.LIGHTBLACK_EX + f'git repo: {color_bool(is_git_repo).rjust(15)}  ' + (colorama.Fore.LIGHTBLACK_EX + f'unchanged: {color_bool(not info.has_issues()).rjust(15)}  ' if info != None else ' '*18) + colorama.Fore.RESET + str(dir))
+        else:
+            print()
+            print(dir)
+            print(colorama.Fore.LIGHTBLACK_EX + f' Is git repo: {color_bool(is_git_repo)}')
+            if (info != None):
+                print(colorama.Fore.LIGHTBLACK_EX + ' Current branch: ' + (colorama.Fore.CYAN + info.current_branch if info.current_branch != None else colorama.Fore.RED + 'None') + colorama.Fore.RESET)
+                print(colorama.Fore.LIGHTBLACK_EX + ' Branches: ' + colorama.Fore.WHITE + ''.join([f'\n  {format_branch(*branch)}' for branch in info.branches]) + colorama.Fore.RESET)
+                print(colorama.Fore.LIGHTBLACK_EX + f' No uncommited changes: {color_bool(info.has_no_uncommited_changes)}')
+                print(colorama.Fore.LIGHTBLACK_EX + f' No unpushed commits: {color_bool(info.has_no_unpushed_commits)}')
+                print(colorama.Fore.LIGHTBLACK_EX + f' No stashed changes: {color_bool(info.has_no_stashed_changes)}')
+            print()
 
 if __name__ == '__main__':
     main()
