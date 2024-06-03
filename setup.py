@@ -6,13 +6,13 @@ setup(
     author='Oli',
     author_email='oli@olillin.com',
     license='MIT',
-    py_modules=['main'],
+    py_modules=['repochecker'],
     install_requires=[
         'colorama',
     ],
     entry_points={
         'console_scripts': [
-            'repochecker=main:main',
+            'repochecker=repochecker:main',
         ]
     },
 )
