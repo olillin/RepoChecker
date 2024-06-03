@@ -1,0 +1,26 @@
+[project]
+name = 'repochecker'
+version = '0.1.0'
+description = 'Command line tool to check all git repositories in a directory'
+license = { file = 'LICENSE' }
+authors = [{ name = 'Oli', email = 'oli@olillin.com' }]
+maintainers = [{ name = 'Oli', email = 'oli@olillin.com' }]
+
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3',
+]
+
+dependencies = ['colorama']
+
+[project.urls]
+"Bug Reports" = "https://github.com/olillin/RepoChecker/issues"
+"Source" = "https://github.com/olillin/RepoChecker"
+
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
+
+[project.scripts]
+repochecker = 'main:main'
