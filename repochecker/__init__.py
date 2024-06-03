@@ -23,17 +23,17 @@ def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(
         prog='RepoChecker',
-        description='Check git repository information and get a summary',
+        description='Check git repository information of multiple directories and get a summary of what types of changes have not been pushed to upstream',
     )
     parser.add_argument('directory', type=Path)
     select_group = parser.add_mutually_exclusive_group()
-    select_group.add_argument('-i', '--invert', action='store_true')
-    select_group.add_argument('-a', '--all', action='store_true')
+    select_group.add_argument('-i', '--invert', action='store_true', help='print all unchanged repositories')
+    select_group.add_argument('-a', '--all', action='store_true', help='print all directories')
 
     iterate_type_group = parser.add_mutually_exclusive_group()
-    iterate_type_group.add_argument('-s', '--single', action='store_true')
-    iterate_type_group.add_argument('-r', '--recursive', action='store_true')
-    parser.add_argument('-d', '--recursion-depth', default=-1, type=int)
+    iterate_type_group.add_argument('-s', '--single', action='store_true', help='only check `directory`')
+    iterate_type_group.add_argument('-r', '--recursive', action='store_true', help='check `directory` and all its subdirectories recursively')
+    parser.add_argument('-d', '--recursion-depth', default=-1, type=int, help='how deep to recurse. Negative numbers mean no limit. A depth of 1 will check `directory` and its immediate children')
 
     parser.add_argument('-b', '--brief', action='store_true')
 

@@ -1,7 +1,8 @@
 [project]
-name = 'repochecker'
+name = 'gitrepochecker'
 version = '0.2.0'
 description = 'Command line tool to check all git repositories in a directory'
+readme = 'README.md'
 license = { file = 'LICENSE' }
 authors = [{ name = 'Oli', email = 'oli@olillin.com' }]
 maintainers = [{ name = 'Oli', email = 'oli@olillin.com' }]
