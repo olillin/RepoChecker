@@ -29,9 +29,11 @@ def main():
     select_group = parser.add_mutually_exclusive_group()
     select_group.add_argument('-i', '--invert', action='store_true')
     select_group.add_argument('-a', '--all', action='store_true')
+
     iterate_type_group = parser.add_mutually_exclusive_group()
     iterate_type_group.add_argument('-s', '--single', action='store_true')
     iterate_type_group.add_argument('-r', '--recursive', action='store_true')
+    parser.add_argument('-d', '--recursion-depth', default=-1, type=int)
 
     args = parser.parse_args()
 
@@ -42,11 +44,13 @@ def main():
 
     directories: list[Path] = list()
 
-    if args.single:
+    if args.single or (args.recursive and args.recursion_depth == 0):
         if args.directory.is_dir():
             directories = [args.directory.absolute()]
     elif args.recursive:
-        raise Exception('Unimplemented')
+        for root, _, _ in os.walk(args.directory):
+            if args.recursion_depth < 0 or root[len(str(args.directory)):].count(os.sep) <= args.recursion_depth:
+                directories.append(root)
     else:
         root = args.directory.absolute()
         directories = [root.joinpath(dir) for dir in os.listdir(root) if root.joinpath(dir).is_dir()]
