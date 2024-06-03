@@ -29,6 +29,9 @@ def main():
     select_group = parser.add_mutually_exclusive_group()
     select_group.add_argument('-i', '--invert', action='store_true')
     select_group.add_argument('-a', '--all', action='store_true')
+    iterate_type_group = parser.add_mutually_exclusive_group()
+    iterate_type_group.add_argument('-s', '--single', action='store_true')
+    iterate_type_group.add_argument('-r', '--recursive', action='store_true')
 
     args = parser.parse_args()
 
@@ -39,7 +42,12 @@ def main():
 
     directories: list[Path] = list()
 
-    if True:
+    if args.single:
+        if args.directory.is_dir():
+            directories = [args.directory.absolute()]
+    elif args.recursive:
+        raise Exception('Unimplemented')
+    else:
         root = args.directory.absolute()
         directories = [root.joinpath(dir) for dir in os.listdir(root) if root.joinpath(dir).is_dir()]
 
