@@ -15,23 +15,10 @@ class DirectoryInfo:
                 and self.has_no_unpushed_commits
                 and self.has_no_stashed_changes)
 
-def is_repository(directory: Path = Path('.')) -> bool:
-    # Go into directory
-    original = os.getcwd()
-    os.chdir(directory)
+def is_repository(directory: Path = Path()) -> bool:
+    return directory.joinpath('.git').is_dir()
 
-    try:
-        status_result = subprocess.run(['git', 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if status_result.returncode == 128:
-            return False
-        elif status_result.returncode != 0:
-            raise Exception(f'Error {status_result.returncode} in {os.getcwd()}: {status_result.stderr}')
-        else:
-            return True
-    finally:
-        os.chdir(original)
-
-def get_branches(directory: Path = Path('.')) -> list[tuple[str,str|None,int,int]]:
+def get_branches(directory: Path = Path()) -> list[tuple[str,str|None,int,int]]:
     # Go into directory
     original = os.getcwd()
     os.chdir(directory)
@@ -77,7 +64,7 @@ def get_branches(directory: Path = Path('.')) -> list[tuple[str,str|None,int,int
     finally:
         os.chdir(original)
 
-def has_stash(directory: Path = Path('.')) -> bool:
+def has_stash(directory: Path = Path()) -> bool:
     # Go into directory
     original = os.getcwd()
     os.chdir(directory)
@@ -93,7 +80,7 @@ def has_stash(directory: Path = Path('.')) -> bool:
     finally:
         os.chdir(original)
 
-def get_info(directory: Path = Path('.')) -> DirectoryInfo:
+def get_info(directory: Path = Path()) -> DirectoryInfo:
     # Go into directory
     original = os.getcwd()
     os.chdir(directory)

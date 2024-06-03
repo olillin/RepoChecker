@@ -52,7 +52,7 @@ def main():
     elif args.recursive:
         for root, _, _ in os.walk(args.directory):
             if args.recursion_depth < 0 or root[len(str(args.directory)):].count(os.sep) <= args.recursion_depth:
-                directories.append(root)
+                directories.append(Path(root))
     else:
         root = args.directory.absolute()
         directories = [root.joinpath(dir) for dir in os.listdir(root) if root.joinpath(dir).is_dir()]
