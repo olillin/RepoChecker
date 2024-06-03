@@ -1,6 +1,6 @@
 [project]
 name = 'gitrepochecker'
-version = '0.2.0'
+version = '0.2.2'
 description = 'Command line tool to check all git repositories in a directory'
 readme = 'README.md'
 license = { file = 'LICENSE' }

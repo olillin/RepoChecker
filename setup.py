@@ -6,7 +6,6 @@ setup(
     author='Oli',
     author_email='oli@olillin.com',
     license='MIT',
-    py_modules=['repochecker'],
     install_requires=[
         'colorama',
     ],
