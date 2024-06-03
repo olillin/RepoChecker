@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import subprocess
 import argparse
 import re
@@ -38,15 +39,18 @@ def main():
         prog='RepoChecker',
         description='Check git repository information and get a summary',
     )
-    parser.add_argument('directory', default='.')
+    parser.add_argument('directory', type=Path)
+    select_group = parser.add_mutually_exclusive_group()
+    select_group.add_argument('-i', '--invert', action='store_true')
+    select_group.add_argument('-a', '--all', action='store_true')
 
     args = parser.parse_args()
 
-    path = os.path.abspath(args.directory)
-    os.chdir(path)
+    abspath = args.directory.absolute()
+    os.chdir(abspath)
 
     for dir_name in os.listdir():
-        os.chdir(path)
+        os.chdir(abspath)
         # Go into directory
         if not os.path.isdir(dir_name):
             continue
@@ -120,7 +124,7 @@ def main():
                 print(colorama.Fore.RED + f'Error {stash_result.returncode} in {os.getcwd()}: {stash_result.stderr}' + colorama.Fore.RESET)
                 continue
 
-        if not info.has_issues():
+        if not args.all and (not info.has_issues() ^ args.invert):
             continue
 
         print()
