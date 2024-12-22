@@ -96,4 +96,5 @@ def main():
             print()
 
 if __name__ == '__main__':
+    colorama.just_fix_windows_console()
     main()
